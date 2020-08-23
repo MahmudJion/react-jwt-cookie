@@ -3,14 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3001",
+  "main": "server.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "jsonwebtoken": "^8.5.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "cookie-parser": "^1.4.5"
   },
   "scripts": {
     "start": "react-scripts start",
