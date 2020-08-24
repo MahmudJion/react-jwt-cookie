@@ -4,12 +4,14 @@ import './App.css';
 const apiUrl = 'http://localhost:3001';
 axios.interceptors.request.use(
   config => {
-    const { origin } = new URL(config.url);
+    // const { origin } = new URL(config.url);
     const allowedOrigins = [apiUrl];
     const token = localStorage.getItem('token');
-    if (allowedOrigins.includes(origin)) {
-      config.headers.authorization = `Bearer ${token}`;
-    }
+    // if (allowedOrigins.includes(origin)) {
+    //   config.headers.authorization = `Bearer ${token}`;
+    // }
+    config.headers.authorization = `Bearer ${token}`;
+
     return config;
   },
   error => {
@@ -28,7 +30,7 @@ setJwt(data.token);
 }
 const getFoods = async () => {
     try {
-      const { data } = await axios.get(`${apiUrl}/foods`);
+      const { data } = await axios.get(`/foods`);
       setFoods(data);
       setFetchError(null);
     } catch (err) {
