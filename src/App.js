@@ -4,12 +4,7 @@ import './App.css';
 const apiUrl = 'http://localhost:3001';
 axios.interceptors.request.use(
   config => {
-    // const { origin } = new URL(config.url);
-    const allowedOrigins = [apiUrl];
     const token = localStorage.getItem('token');
-    // if (allowedOrigins.includes(origin)) {
-    //   config.headers.authorization = `Bearer ${token}`;
-    // }
     config.headers.authorization = `Bearer ${token}`;
 
     return config;
@@ -52,8 +47,8 @@ return (
           Get Foods
         </button>
         <ul>
-          {foods.map((food, i) => (
-            <li>{food.description}</li>
+          {foods.map((food,index) => (
+            <li key={index} >{food.description}</li>
           ))}
         </ul>
         {fetchError && (
