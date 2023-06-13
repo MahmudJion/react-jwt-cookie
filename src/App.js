@@ -1,38 +1,46 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
+
 const apiUrl = 'http://localhost:3001';
+
 axios.interceptors.request.use(
-  config => {
+  (config) => {
     const token = localStorage.getItem('token');
     config.headers.authorization = `Bearer ${token}`;
-
     return config;
   },
-  error => {
+  (error) => {
     return Promise.reject(error);
   }
 );
+
 function App() {
   const storedJwt = localStorage.getItem('token');
   const [jwt, setJwt] = useState(storedJwt || null);
   const [foods, setFoods] = useState([]);
   const [fetchError, setFetchError] = useState(null);
 
-const getJwt = async () => {
-const { data } = await axios.get(`/jwt`);
-setJwt(data.token);
-}
-const getFoods = async () => {
+  const getJwt = async () => {
     try {
-      const { data } = await axios.get(`/foods`);
-      setFoods(data);
-      setFetchError(null);
-    } catch (err) {
-      setFetchError(err.message);
+      const { data } = await axios.get(`${apiUrl}/jwt`);
+      setJwt(data.token);
+    } catch (error) {
+      console.log(error);
     }
   };
-return (
+
+  const getFoods = async () => {
+    try {
+      const { data } = await axios.get(`${apiUrl}/foods`);
+      setFoods(data);
+      setFetchError(null);
+    } catch (error) {
+      setFetchError(error.message);
+    }
+  };
+
+  return (
     <>
       <section style={{ marginBottom: '10px' }}>
         <button onClick={() => getJwt()}>Get JWT</button>
@@ -43,19 +51,16 @@ return (
         )}
       </section>
       <section>
-        <button onClick={() => getFoods()}>
-          Get Foods
-        </button>
+        <button onClick={() => getFoods()}>Get Foods</button>
         <ul>
-          {foods.map((food,index) => (
-            <li key={index} >{food.description}</li>
+          {foods.map((food, index) => (
+            <li key={index}>{food.description}</li>
           ))}
         </ul>
-        {fetchError && (
-          <p style={{ color: 'red' }}>{fetchError}</p>
-        )}
+        {fetchError && <p style={{ color: 'red' }}>{fetchError}</p>}
       </section>
     </>
   );
 }
+
 export default App;
